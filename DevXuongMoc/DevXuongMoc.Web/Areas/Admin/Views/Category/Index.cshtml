@@ -1,0 +1,50 @@
+﻿@model IEnumerable<DevXuongMoc.Domain.Entities.Category>
+
+@{
+    ViewData["Title"] = "Quản lý Danh mục";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a asp-area="Admin" asp-action="Create" class="btn btn-primary">
+        Thêm mới
+    </a>
+</div>
+
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tên Danh Mục</th>
+            <th>Đường dẫn (Slug)</th>
+            <th>Thứ tự</th>
+            <th>Trạng thái</th>
+            <th class="text-center">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td><span class="badge bg-light text-dark border">@item.Slug</span></td>
+                <td>@item.SortOrder</td>
+                <td>
+                    @if (item.IsVisible)
+                    {
+                        <span class="badge bg-success">Hiển thị</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Đang ẩn</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <a asp-area="Admin" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Chi tiết</a>
+                    <a asp-area="Admin" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-area="Admin" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,287 @@
+﻿@model DevXuongMoc.Domain.Entities.Product
+
+@{
+    ViewData["Title"] = "Chỉnh sửa Sản phẩm";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+        <h5 class="mb-0">Chỉnh sửa Sản phẩm</h5>
+    </div>
+    <div class="card-body">
+        <!-- HIỂN THỊ THÔNG BÁO -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show">@TempData["Success"] <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show">@TempData["Error"] <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+        }
+
+        <!-- FORM 1: CẬP NHẬT SẢN PHẨM -->
+        <form asp-area="Admin" asp-controller="Product" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedAt" />
+
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <label asp-for="Name" class="form-label fw-bold">Tên Sản Phẩm <span class="text-danger">*</span></label>
+                    <input asp-for="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label asp-for="CategoryId" class="form-label fw-bold">Danh mục <span class="text-danger">*</span></label>
+                    <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories" required>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Slug" class="form-label fw-bold">Đường dẫn (Slug)</label>
+                <input asp-for="Slug" class="form-control" />
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ShortDescription" class="form-label fw-bold">Mô tả ngắn</label>
+                    <textarea asp-for="ShortDescription" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ShortSpec" class="form-label fw-bold">Thông số ngắn</label>
+                    <textarea asp-for="ShortSpec" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Spec" class="form-label fw-bold">Thông số kỹ thuật chi tiết (HTML)</label>
+                <textarea asp-for="Spec" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label asp-for="WarrantyMonths" class="form-label fw-bold">Bảo hành (tháng)</label>
+                    <input asp-for="WarrantyMonths" class="form-control" type="number" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label asp-for="Status" class="form-label fw-bold">Trạng thái (0=Ẩn, 1=Hiện)</label>
+                    <input asp-for="Status" class="form-control" type="number" />
+                </div>
+                <div class="col-md-4 mb-3 d-flex align-items-end">
+                    <div class="form-check form-switch mb-2">
+                        <input asp-for="IsFeatured" class="form-check-input" type="checkbox" />
+                        <label asp-for="IsFeatured" class="form-check-label fw-bold">Sản phẩm nổi bật</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KHU VỰC ẢNH -->
+            <div class="mb-4 border-top pt-3">
+                <label class="form-label fw-bold text-primary">Hình ảnh sản phẩm hiện tại</label>
+                <div class="row g-2 mb-3">
+                    @if (Model.ProductImages != null && Model.ProductImages.Any())
+                    {
+                        foreach (var img in Model.ProductImages)
+                        {
+                            <div class="col-2 position-relative">
+                                <img src="@img.Path" class="img-fluid rounded border" style="height: 100px; width: 100%; object-fit: cover;" />
+                                @if (img.IsPrimary)
+                                {
+                                    <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-1" style="font-size: 10px;">Đại diện</span>
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted fst-italic">Sản phẩm này chưa có ảnh nào.</p>
+                    }
+                </div>
+
+                <label class="form-label fw-bold">Hình ảnh sản phẩm (Có thể chọn nhiều lần)</label>
+                <input type="file" id="imageInput" name="ImageFiles" class="form-control" multiple accept="image/*" />
+                <div id="imagePreview" class="d-flex flex-wrap gap-3 mt-3"></div>
+            </div>
+
+            <!-- NÚT LƯU FORM 1 -->
+            <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Cập nhật Sản phẩm</button>
+            <a asp-area="Admin" asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Quay lại danh sách</a>
+        </form>
+        <!-- KẾT THÚC FORM 1 -->
+        <!-- FORM 2: KHU VỰC BIẾN THỂ (NẰM NGOÀI FORM 1) -->
+        <div class="mt-5 border-top pt-4">
+            <h5 class="text-primary mb-3"><i class="bi bi-boxes"></i> Quản lý Variant</h5>
+
+            <table class="table table-bordered table-sm align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Chất liệu</th>
+                        <th>Giá gốc (VNĐ)</th>
+                        <th>Giá bán (VNĐ)</th>
+                        <th class="text-center" style="width: 100px;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ProductVariants != null && Model.ProductVariants.Any())
+                    {
+                        foreach (var variant in Model.ProductVariants)
+                        {
+                            <tr>
+                                <td class="fw-bold">@variant.MaterialName</td>
+                                <td class="text-decoration-line-through text-muted">@variant.OriginalPrice.ToString("N0") đ</td>
+                                <td class="text-danger fw-bold">@variant.SalePrice.ToString("N0") đ</td>
+                                <td class="text-center">
+                                    <!-- Nút xóa biến thể -->
+                                    <a href="/Admin/Product/DeleteVariant/@variant.Id" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc muốn xóa chất liệu này?');">
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">Chưa có biến thể nào. Hãy thêm ở bên dưới.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="card bg-light mt-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Thêm biến thể mới</h6>
+                    <!-- Đây là form độc lập để thêm biến thể -->
+                    <form asp-area="Admin" asp-controller="Product" asp-action="AddVariant" method="post" class="row g-2 align-items-end">
+                        <input type="hidden" name="ProductId" value="@Model.Id" />
+
+                        <div class="col-md-3">
+                            <label class="form-label mb-1 text-muted small">Chất liệu</label>
+                            <input type="text" name="MaterialName" class="form-control form-control-sm" placeholder="VD: Gỗ sồi" required />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label mb-1 text-muted small">Giá gốc</label>
+                            <input type="number" name="OriginalPrice" class="form-control form-control-sm" placeholder="VD: 5000000" min="0" required />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label mb-1 text-muted small">Giá bán</label>
+                            <input type="number" name="SalePrice" class="form-control form-control-sm" placeholder="VD: 4500000" min="0" required />
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-sm btn-success w-100"><i class="bi bi-plus-circle"></i> Thêm biến thể</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- KẾT THÚC FORM 2 -->
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const imageInput = document.getElementById('imageInput');
+            const imagePreview = document.getElementById('imagePreview');
+            // Đối tượng dùng để tích lũy file
+            let dataTransfer = new DataTransfer();
+
+            imageInput.addEventListener('change', function (event) {
+                const newFiles = event.target.files;
+
+                // 1. Cộng dồn các file mới vào danh sách
+                for (let i = 0; i < newFiles.length; i++) {
+                    dataTransfer.items.add(newFiles[i]);
+                }
+
+                // 2. Gán lại danh sách file đã cộng dồn cho thẻ input
+                imageInput.files = dataTransfer.files;
+
+                // 3. Vẽ lại giao diện xem trước
+                renderPreview();
+            });
+
+            function renderPreview() {
+                imagePreview.innerHTML = ''; // Xóa khung preview cũ
+                const files = imageInput.files;
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // Tạo khung bao bọc (Container)
+                            const container = document.createElement('div');
+                            container.className = 'position-relative text-center';
+                            container.style.width = '100px';
+
+                            // Tạo thẻ ảnh
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.style.width = '100px';
+                            img.style.height = '100px';
+                            img.style.objectFit = 'cover';
+                            img.style.borderRadius = '10px';
+                            img.style.border = '1px solid #ccc';
+
+                            // Tạo tên file
+                            const fileName = document.createElement('div');
+                            fileName.style.fontSize = '11px';
+                            fileName.style.marginTop = '5px';
+                            fileName.style.wordBreak = 'break-all';
+                            fileName.innerText = file.name;
+
+                            // Tạo nút Xóa (X) trên góc ảnh
+                            const btnRemove = document.createElement('button');
+                            btnRemove.type = 'button';
+                            btnRemove.className = 'btn btn-sm btn-danger position-absolute';
+                            btnRemove.style.top = '2px';
+                            btnRemove.style.right = '2px';
+                            btnRemove.style.padding = '2px 6px';
+                            btnRemove.style.fontSize = '12px';
+                            btnRemove.innerHTML = '&times;'; // Dấu X
+
+                            // Xử lý sự kiện khi bấm nút Xóa
+                            btnRemove.onclick = function() {
+                                removeFile(i);
+                            };
+
+                            container.appendChild(img);
+                            container.appendChild(fileName);
+                            container.appendChild(btnRemove);
+                            imagePreview.appendChild(container);
+                        };
+
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+
+            // Hàm xóa ảnh khỏi danh sách nếu chọn nhầm
+            function removeFile(indexToRemove) {
+                const dt = new DataTransfer(); // Tạo DataTransfer mới
+                const files = imageInput.files;
+
+                for (let i = 0; i < files.length; i++) {
+                    if (i !== indexToRemove) {
+                        dt.items.add(files[i]); // Giữ lại những ảnh không bị xóa
+                    }
+                }
+
+                imageInput.files = dt.files; // Gán lại
+                dataTransfer = dt; // Cập nhật lại biến lưu trữ
+                renderPreview(); // Vẽ lại
+            }
+        });
+    </script>
+}

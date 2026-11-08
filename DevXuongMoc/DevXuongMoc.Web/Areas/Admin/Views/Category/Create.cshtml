@@ -1,0 +1,54 @@
+﻿@model DevXuongMoc.Domain.Entities.Category
+
+@{
+    ViewData["Title"] = "Thêm mới Danh mục";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="bi bi-plus-square"></i> Thêm mới Danh mục</h5>
+    </div>
+    <div class="card-body">
+        <form asp-area="Admin" asp-controller="Category" asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-bold">Tên Danh Mục <span class="text-danger">*</span></label>
+                <input asp-for="Name" class="form-control" placeholder="Ví dụ: Bàn ghế phòng khách..." required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Đường dẫn (Slug)</label>
+                <input name="SlugInput" class="form-control" placeholder="Để trống để hệ thống tự tạo..." />
+                <div class="form-text">Ví dụ: ban-ghe-go. Nếu nhập trùng với danh mục khác, hệ thống sẽ báo lỗi.</div>
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SortOrder" class="form-label fw-bold">Thứ tự hiển thị</label>
+                    <input asp-for="SortOrder" class="form-control" type="number" value="0" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="IconPath" class="form-label fw-bold">Đường dẫn Icon</label>
+                    <input asp-for="IconPath" class="form-control" placeholder="Ví dụ: /images/icons/sofa.svg" />
+                </div>
+            </div>
+
+            <div class="mb-4 form-check form-switch">
+                <input asp-for="IsVisible" class="form-check-input" type="checkbox" checked />
+                <label asp-for="IsVisible" class="form-check-label">Hiển thị danh mục này trên trang chủ</label>
+            </div>
+
+            <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Lưu lại</button>
+            <a asp-area="Admin" asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Quay lại</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

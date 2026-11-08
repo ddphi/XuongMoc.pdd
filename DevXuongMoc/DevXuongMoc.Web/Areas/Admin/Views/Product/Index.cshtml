@@ -1,0 +1,66 @@
+﻿@model IEnumerable<DevXuongMoc.Domain.Entities.Product>
+
+@{
+    ViewData["Title"] = "Quản lý Sản phẩm";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a asp-area="Admin" asp-action="Create" class="btn btn-primary">
+        Thêm Sản phẩm
+    </a>
+</div>
+
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Danh mục</th>
+            <th>Tháng BH</th>
+            <th>Nổi bật</th>
+            <th class="text-center">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        @{
+                            var primaryImage = item.ProductImages?.FirstOrDefault(i => i.IsPrimary) ?? item.ProductImages?.FirstOrDefault();
+                            if (primaryImage != null)
+                            {
+                                <img src="@primaryImage.Path" alt="img" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px; margin-right: 10px;" />
+                            }
+                            else
+                            {
+                                <div style="width: 40px; height: 40px; background: #eee; border-radius: 5px; margin-right: 10px;"></div>
+                            }
+                        }
+                        <div>
+                            <b>@item.Name</b> <br />
+                            <small class="text-muted">@item.Slug</small>
+                        </div>
+                    </div>
+                </td>
+                <td>@item.Category?.Name</td>
+                <td>@item.WarrantyMonths tháng</td>
+                <td>
+                    @if (item.IsFeatured)
+                    {
+                        <span class="badge bg-warning text-dark">Nổi bật</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <a asp-area="Admin" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Chi tiết</a>
+                    <form asp-area="Admin" asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                    </form>
+                    <a asp-area="Admin" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
