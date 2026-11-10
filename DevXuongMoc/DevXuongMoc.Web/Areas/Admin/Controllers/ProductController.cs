@@ -230,6 +230,49 @@ namespace DevXuongMoc.Web.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Edit), new { id = ProductId });
         }
+        //delete variant
+
+        // GET: Admin/Product/DeleteImage/5
+        public async Task<IActionResult> DeleteImage(int id)
+        {
+            var image = await _context.ProductImages.FindAsync(id);
+            if (image == null) return NotFound();
+
+            int productId = image.ProductId;
+
+            // Xóa file vật lý trong thư mục wwwroot
+            if (!string.IsNullOrEmpty(image.Path))
+            {
+                // Chuyển đường dẫn web ("/uploads/...") thành đường dẫn vật lý trên ổ cứng
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", image.Path.TrimStart('/'));
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
+
+            // Xóa trong Database
+            _context.ProductImages.Remove(image);
+            await _context.SaveChangesAsync();
+
+            // Nếu ảnh bị xóa là ảnh đại diện (IsPrimary), chọn ảnh còn lại làm đại diện
+            if (image.IsPrimary)
+            {
+                var nextImage = await _context.ProductImages
+                    .FirstOrDefaultAsync(i => i.ProductId == productId);
+
+                if (nextImage != null)
+                {
+                    nextImage.IsPrimary = true;
+                    _context.Update(nextImage);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            TempData["Success"] = "Đã xóa ảnh thành công!";
+            return RedirectToAction(nameof(Edit), new { id = productId });
+        }
 
         // 4. POST: Soft Delete
         [HttpPost, ActionName("Delete")]
