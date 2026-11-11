@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DevXuongMoc.Domain.Entities.Article>
+
+@{
+    ViewData["Title"] = "Quản lý Bài viết";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a asp-area="Admin" asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Viết bài mới
+    </a>
+</div>
+
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tiêu đề</th>
+            <th>Đường dẫn (Slug)</th>
+            <th>Ngày đăng</th>
+            <th>Trạng thái</th>
+            <th class="text-center">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>
+                    <b>@item.Title</b>
+                </td>
+                <td><span class="badge bg-light text-dark border">@item.Slug</span></td>
+                <td>@(item.PublishedAt.HasValue? item.PublishedAt.Value.ToString("dd/MM/yyyy HH:mm") : "Chưa đăng")</td>
+                <td>
+                    @if (item.Status == 1)
+                    {
+                        <span class="badge bg-success">Xuất bản</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Bản nháp</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <form asp-area="Admin" asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa bài viết này?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                    </form>
+                    <a asp-area="Admin" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
