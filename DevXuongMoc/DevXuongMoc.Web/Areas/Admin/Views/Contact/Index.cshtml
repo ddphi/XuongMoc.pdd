@@ -1,0 +1,90 @@
+﻿@model IEnumerable<DevXuongMoc.Domain.Entities.ContactRequest>
+
+@{
+    ViewData["Title"] = "Hộp thư Liên hệ";
+    int? currentStatus = ViewBag.CurrentStatus;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <a asp-area="Admin" asp-action="Index" class="btn btn-outline-secondary @(currentStatus == null ? "active" : "")">Tất cả</a>
+        <a asp-area="Admin" asp-action="Index" asp-route-status="0" class="btn btn-outline-primary @(currentStatus == 0 ? "active" : "")">Mới</a>
+        <a asp-area="Admin" asp-action="Index" asp-route-status="1" class="btn btn-outline-warning @(currentStatus == 1 ? "active" : "")">Đang xử lý</a>
+        <a asp-area="Admin" asp-action="Index" asp-route-status="2" class="btn btn-outline-success @(currentStatus == 2 ? "active" : "")">Hoàn thành</a>
+        <a asp-area="Admin" asp-action="Index" asp-route-status="3" class="btn btn-outline-danger @(currentStatus == 3 ? "active" : "")">Spam</a>
+    </div>
+
+    <!-- Nút giả lập dữ liệu để test -->
+    <form asp-area="Admin" asp-action="FakeData" method="post" class="d-inline">
+        <button type="submit" class="btn btn-sm btn-info text-white"><i class="bi bi-magic"></i> Tạo dữ liệu mẫu</button>
+    </form>
+</div>
+
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Loại</th>
+            <th>Nội dung tin nhắn</th>
+            <th>Sản phẩm quan tâm</th>
+            <th>Ngày gửi</th>
+            <th>Trạng thái</th>
+            <th class="text-center">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr><td colspan="7" class="text-center text-muted">Hộp thư trống.</td></tr>
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>
+                    @if (item.Type == 0)
+                    {
+                        <span>Liên hệ</span>
+                    }
+                    else if (item.Type == 1)
+                    {
+
+                        <span>Báo giá</span>
+                    }
+                    else
+                    {
+
+                        <span>Tư vấn</span>
+                    }
+                </td>
+                <td>@(item.Message.Length > 50 ? item.Message.Substring(0, 50) + "..." : item.Message)</td>
+                <td>@(item.Product != null ? item.Product.Name : "-")</td>
+                <td>@item.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    @if (item.Status == 0)
+                    {
+                        <span class="badge bg-primary">Mới</span>
+                    }
+                    else if (item.Status == 1)
+                    {
+
+                        <span class="badge bg-warning text-dark">Đang xử lý</span>
+                    }
+                    else if (item.Status == 2)
+                    {
+
+                        <span class="badge bg-success">Hoàn thành</span>
+                    }
+                    else
+                    {
+
+                        <span class="badge bg-danger">Spam</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <a asp-area="Admin" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Xem & Xử lý</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

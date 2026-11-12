@@ -1,0 +1,85 @@
+﻿@model IEnumerable<DevXuongMoc.Domain.Entities.Banner>
+
+@{
+    ViewData["Title"] = "Quản lý Banner";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a asp-area="Admin" asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Thêm Banner mới
+    </a>
+</div>
+
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Vị trí (Placement)</th>
+            <th>Đường dẫn (Link)</th>
+            <th>Thời gian hiển thị</th>
+            <th>Trạng thái</th>
+            <th class="text-center">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>
+                    @if (item.Placement == 1)
+                    {
+                        <span class="badge bg-primary">Hero (Ảnh bìa)</span>
+                    }
+                    else if (item.Placement == 2)
+                    {
+
+                        <span class="badge bg-info text-dark">Product Slider</span>
+                    }
+                    else if (item.Placement == 3)
+                    {
+
+                        <span class="badge bg-warning text-dark">Category</span>
+                    }
+                    else
+                    {
+
+                        <span class="badge bg-secondary">Khác (@item.Placement)</span>
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.LinkUrl))
+                    {
+                        <a href="@item.LinkUrl" target="_blank">@item.LinkUrl</a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Không có</span>
+                    }
+                </td>
+                <td>
+                    <small>
+                        Từ: @(item.StartsAt.HasValue? item.StartsAt.Value.ToString("dd/MM/yyyy HH:mm") : "Bây giờ") <br />
+                        Đến: @(item.EndsAt.HasValue? item.EndsAt.Value.ToString("dd/MM/yyyy HH:mm") : "Không thời hạn")
+                    </small>
+                </td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="badge bg-success">Đang bật</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Đang tắt</span>
+                    }
+                </td>
+                <td class="text-center">
+                    <form asp-area="Admin" asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa banner này?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                    </form>
+                    <a asp-area="Admin" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

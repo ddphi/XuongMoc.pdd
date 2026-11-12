@@ -1,0 +1,47 @@
+﻿@model DevXuongMoc.Domain.Entities.Partner
+
+@{
+    ViewData["Title"] = "Thêm Đối tác";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Thêm Đối tác mới</h5>
+    </div>
+    <div class="card-body">
+        <form asp-area="Admin" asp-controller="Partner" asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-bold">Tên Đối tác <span class="text-danger">*</span></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Logo Đối tác</label>
+                <input type="file" name="LogoFile" class="form-control" accept="image/*" />
+                <div class="form-text">Nên chọn ảnh nền trong suốt (PNG/SVG).</div>
+            </div>
+
+            <div class="mb-3 form-check form-switch">
+                <input asp-for="ShowOnHome" class="form-check-input" type="checkbox" checked />
+                <label asp-for="ShowOnHome" class="form-check-label fw-bold">Hiển thị ở dải Logo Trang chủ</label>
+            </div>
+
+            <div class="mb-4 form-check form-switch">
+                <input asp-for="IsVisible" class="form-check-input" type="checkbox" checked />
+                <label asp-for="IsVisible" class="form-check-label fw-bold">Trạng thái Hiển thị chung</label>
+            </div>
+
+            <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Lưu lại</button>
+            <a asp-area="Admin" asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Quay lại</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

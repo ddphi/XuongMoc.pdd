@@ -1,0 +1,97 @@
+﻿@model DevXuongMoc.Domain.Entities.ContactRequest
+
+@{
+    ViewData["Title"] = "Chi tiết Yêu cầu";
+}
+
+<div class="row">
+    <!-- CỘT TRÁI: NỘI DUNG YÊU CẦU -->
+    <div class="col-md-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Nội dung Yêu cầu #@Model.Id</h5>
+            </div>
+            <div class="card-body">
+                <p><b>Ngày gửi:</b> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</p>
+                <p><b>Địa chỉ IP:</b> @Model.IpAddress</p>
+                <p><b>Sản phẩm quan tâm:</b> @(Model.Product != null ? Model.Product.Name : "Không có")</p>
+                <hr />
+                <div class="alert alert-secondary fs-5">
+                    @Model.Message
+                </div>
+            </div>
+        </div>
+
+        <!-- LỊCH SỬ GHI CHÚ -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Lịch sử Chăm sóc</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group mb-3">
+                    @if (Model.ContactNotes != null && Model.ContactNotes.Any())
+                    {
+                        foreach (var note in Model.ContactNotes.OrderByDescending(n => n.CreatedAt))
+                        {
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between">
+                                    <small class="text-muted">@(note.CreatedBy ?? "Hệ thống")</small>
+                                    <small class="text-muted">@note.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                                </div>
+                                <p class="mb-0 mt-1">@note.Content</p>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="list-group-item text-muted fst-italic">Chưa có ghi chú nào.</li>
+                    }
+                </ul>
+
+                <form asp-area="Admin" asp-action="AddNote" method="post">
+                    <input type="hidden" name="contactId" value="@Model.Id" />
+                    <div class="input-group">
+                        <input type="text" name="content" class="form-control" placeholder="Nhập ghi chú chăm sóc khách hàng..." required />
+                        <button type="submit" class="btn btn-primary">Thêm ghi chú</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- CỘT PHẢI: TRẠNG THÁI -->
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Cập nhật Trạng thái</h5>
+            </div>
+            <div class="card-body">
+                <!-- Hiển thị thông báo -->
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show">@TempData["Success"] <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+                }
+
+                <form asp-area="Admin" asp-action="UpdateStatus" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Trạng thái xử lý:</label>
+                        <select name="status" class="form-select">
+                            <option value="0" selected="@(Model.Status == 0)">Mới (Chưa xử lý)</option>
+                            <option value="1" selected="@(Model.Status == 1)">Đang xử lý (Đã liên hệ)</option>
+                            <option value="2" selected="@(Model.Status == 2)">Hoàn thành (Đã chốt)</option>
+                            <option value="3" selected="@(Model.Status == 3)">Đánh dấu là Spam</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100"><i class="bi bi-check-circle"></i> Lưu Trạng thái</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <a asp-area="Admin" asp-action="Index" class="btn btn-secondary w-100"><i class="bi bi-arrow-left"></i> Quay lại Hộp thư</a>
+        </div>
+    </div>
+</div>
