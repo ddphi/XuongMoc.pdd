@@ -30,7 +30,8 @@ namespace DevXuongMoc.Web.Areas.Admin.Controllers
         // POST: Thêm mới
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Placement,LinkUrl,StartsAt,EndsAt,IsActive")] Banner banner)
+        // SỬA Ở ĐÂY: Thêm IFormFile? ImageFile vào tham số
+        public async Task<IActionResult> Create([Bind("Placement,LinkUrl,StartsAt,EndsAt,IsActive")] Banner banner, IFormFile? ImageFile)
         {
             // Validate logic thời gian
             if (banner.StartsAt.HasValue && banner.EndsAt.HasValue && banner.EndsAt < banner.StartsAt)
@@ -41,6 +42,18 @@ namespace DevXuongMoc.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 banner.CreatedAt = DateTime.Now;
+
+                // Xử lý upload ảnh
+                if (ImageFile != null && ImageFile.Length > 0)
+                {
+                    string uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "banners");
+                    if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
+                    string filePath = Path.Combine(uploadDir, fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create)) { await ImageFile.CopyToAsync(stream); }
+                    banner.ImagePath = "/uploads/banners/" + fileName;
+                }
+
                 _context.Add(banner);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -60,7 +73,8 @@ namespace DevXuongMoc.Web.Areas.Admin.Controllers
         // POST: Chỉnh sửa
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Placement,LinkUrl,StartsAt,EndsAt,IsActive,CreatedAt")] Banner banner)
+        // SỬA Ở ĐÂY: Thêm IFormFile? ImageFile và "ImagePath" vào Bind
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Placement,LinkUrl,StartsAt,EndsAt,IsActive,CreatedAt,ImagePath")] Banner banner, IFormFile? ImageFile)
         {
             if (id != banner.Id) return NotFound();
 
@@ -75,6 +89,26 @@ namespace DevXuongMoc.Web.Areas.Admin.Controllers
                 {
                     banner.UpdatedAt = DateTime.Now;
                     _context.Entry(banner).Property(x => x.CreatedAt).IsModified = false;
+
+                    // Xử lý upload ảnh mới (nếu có)
+                    if (ImageFile != null && ImageFile.Length > 0)
+                    {
+                        string uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "banners");
+                        if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
+                        string filePath = Path.Combine(uploadDir, fileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create)) { await ImageFile.CopyToAsync(stream); }
+
+                        // Xóa ảnh cũ để tránh rác server
+                        if (!string.IsNullOrEmpty(banner.ImagePath))
+                        {
+                            var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", banner.ImagePath.TrimStart('/'));
+                            if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+                        }
+
+                        banner.ImagePath = "/uploads/banners/" + fileName;
+                    }
+
                     _context.Update(banner);
                     await _context.SaveChangesAsync();
                 }
@@ -96,6 +130,13 @@ namespace DevXuongMoc.Web.Areas.Admin.Controllers
             var banner = await _context.Banners.FindAsync(id);
             if (banner != null)
             {
+                // Xóa ảnh vật lý trước khi xóa DB
+                if (!string.IsNullOrEmpty(banner.ImagePath))
+                {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", banner.ImagePath.TrimStart('/'));
+                    if (System.IO.File.Exists(filePath)) System.IO.File.Delete(filePath);
+                }
+
                 _context.Banners.Remove(banner);
                 await _context.SaveChangesAsync();
             }

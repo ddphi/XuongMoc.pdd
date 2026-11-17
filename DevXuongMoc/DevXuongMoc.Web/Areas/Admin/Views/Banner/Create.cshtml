@@ -9,7 +9,7 @@
         <h5 class="mb-0">Thêm Banner mới</h5>
     </div>
     <div class="card-body">
-        <form asp-area="Admin" asp-controller="Banner" asp-action="Create" method="post">
+        <form asp-area="Admin" asp-controller="Banner" asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="row">
@@ -46,6 +46,11 @@
             <div class="mb-4 form-check form-switch">
                 <input asp-for="IsActive" class="form-check-input" type="checkbox" checked />
                 <label asp-for="IsActive" class="form-check-label fw-bold">Bật Banner này</label>
+            </div>
+
+            <div class="mb-4 border-top pt-3">
+                <label class="form-label fw-bold">Hình ảnh Banner (Chỉ chọn 1 ảnh)</label>
+                <input type="file" name="ImageFile" class="form-control" accept="image/*" />
             </div>
 
             <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Lưu lại</button>

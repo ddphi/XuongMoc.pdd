@@ -1,0 +1,27 @@
+﻿:root {
+    /* Bảng màu thương hiệu */
+    --color-gold: #C19A5B;
+    --color-gold-dark: #8A6A33;
+    --color-navy: #2B2D5C;
+    --color-ink: #1F1F1F;
+    --color-bg: #F2F2F2;
+    --color-surface: #FFFFFF;
+    --color-footer: #383838;
+    --color-footer-title: #FFFFFF;
+    --color-footer-text: #D0D0D0;
+    --color-error: #C0392B;
+    /* Font chữ */
+    --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Khoảng cách chuẩn (bội số của 8px) */
+    --space-1: 8px;
+    --space-2: 16px;
+    --space-3: 24px;
+    --space-4: 32px;
+    --space-6: 48px;
+    --space-8: 64px;
+    /* Kích thước khung và bo góc */
+    --container-max: 1280px;
+    --header-height: 140px;
+    --radius-sm: 2px;
+    --border-input: 2px solid var(--color-gold);
+}

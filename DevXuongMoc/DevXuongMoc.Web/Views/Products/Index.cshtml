@@ -1,0 +1,76 @@
+﻿@model DevXuongMoc.Web.ViewModels.ProductOverviewViewModel
+@{
+    ViewData["Title"] = "Sản phẩm - Nội thất Hoàng Hoan";
+    var slides = Model.Banners.Any()
+        ? Model.Banners
+        : new List<DevXuongMoc.Web.ViewModels.BannerItemViewModel>
+        {
+            new() { Id = 1, ImageUrl = "/images/banner-sanpham.jpg", LinkUrl = "/lien-he" }
+        };
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/components/card.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages/products.css" asp-append-version="true" />
+}
+
+<!-- 1. SLIDER BANNER -->
+<section class="products-slider" aria-label="Khuyến mãi sản phẩm">
+    <div class="products-slider__track" id="productSliderTrack">
+        @foreach (var slide in slides)
+        {
+            <div class="products-slider__slide">
+                <img src="@slide.ImageUrl" alt="Trải nghiệm không gian hiện đại" />
+                <div class="products-slider__overlay">
+                    <div class="container products-slider__container">
+                        <div class="products-slider__caption">
+                            <span class="products-slider__eyebrow">Trải nghiệm</span>
+                            <h1 class="products-slider__title">không gian hiện đại</h1>
+                            <a href="@(string.IsNullOrWhiteSpace(slide.LinkUrl) ? "/lien-he" : slide.LinkUrl)"
+                               class="btn-banner-white">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <button type="button" class="slider-arrow slider-arrow--prev" id="sliderPrev" aria-label="Slide trước">‹</button>
+    <button type="button" class="slider-arrow slider-arrow--next" id="sliderNext" aria-label="Slide tiếp">›</button>
+
+    <div class="slider-dots" id="sliderDots">
+        @for (int i = 0; i < slides.Count; i++)
+        {
+            <button type="button" class="slider-dot @(i == 0 ? "is-active" : "")"
+                    aria-label="Chuyển tới slide @(i + 1)"></button>
+        }
+    </div>
+</section>
+
+<!-- 2. 8 KHỐI DANH MỤC -->
+<section class="products-overview">
+    <div class="container">
+        @foreach (var block in Model.CategoryBlocks)
+        {
+            if (!block.Products.Any()) continue;
+
+            <div class="cat-block">
+                <div class="cat-block__header">
+                    <h2 class="cat-block__title">@block.CategoryName</h2>
+                    <a href="/san-pham/@block.CategorySlug" class="cat-block__all">Xem tất cả</a>
+                </div>
+
+                <div class="product-grid-4">
+                    @foreach (var product in block.Products)
+                    {
+                        <partial name="_ProductCard" model="product" />
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/slider.js" asp-append-version="true" defer></script>
+}

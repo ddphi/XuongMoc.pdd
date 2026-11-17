@@ -1,0 +1,277 @@
+﻿/* --- 1. SLIDER BANNER ĐẦU TRANG --- */
+.products-slider {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+    background-color: #dcdad7;
+}
+
+.products-slider__track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.45s ease;
+}
+
+.products-slider__slide {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+}
+
+    .products-slider__slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: left center;
+    }
+
+.products-slider__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+}
+
+.products-slider__container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Khối chữ nằm bên phải (tránh che ghế vàng bên trái) */
+.products-slider__caption {
+    width: 50%;
+    text-align: center;
+    padding: 0 var(--space-3);
+}
+
+.products-slider__eyebrow {
+    display: block;
+    font-family: 'Segoe Script', 'Brush Script MT', cursive;
+    font-style: italic;
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--color-gold);
+    line-height: 1.1;
+    margin-bottom: 4px;
+}
+
+.products-slider__title {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--color-navy);
+    line-height: 1.25;
+    margin-bottom: var(--space-3);
+}
+
+.btn-banner-white {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface);
+    color: var(--color-navy);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 11px 34px;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+}
+
+    .btn-banner-white:hover {
+        background-color: var(--color-gold);
+        color: var(--color-surface);
+    }
+
+/* Mũi tên & chấm phân trang slider */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.75);
+    color: var(--color-navy);
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+    .slider-arrow:hover {
+        background-color: var(--color-gold);
+        color: var(--color-surface);
+    }
+
+.slider-arrow--prev {
+    left: 24px;
+}
+
+.slider-arrow--next {
+    right: 24px;
+}
+
+.slider-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+}
+
+.slider-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    padding: 0;
+}
+
+    .slider-dot.is-active {
+        background-color: var(--color-gold);
+        transform: scale(1.15);
+    }
+
+/* --- 2. KHỐI DANH MỤC & LƯỚI 4 SẢN PHẨM --- */
+.products-overview {
+    padding: var(--space-4) 0 var(--space-6);
+}
+
+.cat-block {
+    background-color: var(--color-surface);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.cat-block__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+}
+
+.cat-block__title {
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--color-navy);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+    .cat-block__title::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 135px;
+        height: 5px;
+        background-color: var(--color-gold);
+    }
+
+.cat-block__all {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-navy);
+    letter-spacing: 0.4px;
+}
+
+    .cat-block__all:hover {
+        color: var(--color-gold);
+    }
+
+/* Lưới 4 cột chuẩn (minmax(0, 1fr) chống vỡ khung khi tên dài) */
+.product-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-3);
+}
+
+    /* Ép tỷ lệ ảnh vuông 1:1 khớp với ảnh SANPHAM.jpg */
+    .product-grid-4 .product-card__thumb {
+        aspect-ratio: 1 / 1;
+    }
+
+    .product-grid-4 .product-card__body {
+        padding: 14px 8px 4px;
+    }
+
+    .product-grid-4 .product-card__title {
+        font-size: 15px;
+    }
+
+/* --- 3. RESPONSIVE (Mục 2.7) --- */
+@media (max-width: 992px) {
+    .products-slider {
+        height: 340px;
+    }
+
+    .products-slider__caption {
+        width: 65%;
+    }
+
+    .products-slider__eyebrow {
+        font-size: 30px;
+    }
+
+    .products-slider__title {
+        font-size: 24px;
+    }
+
+    .product-grid-4 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .products-slider {
+        height: 260px;
+    }
+
+    .products-slider__caption {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.78);
+        padding: var(--space-2);
+    }
+
+    .products-slider__eyebrow {
+        font-size: 24px;
+    }
+
+    .products-slider__title {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .slider-arrow {
+        display: none;
+    }
+
+    .cat-block {
+        padding: var(--space-2);
+    }
+
+    .cat-block__title {
+        font-size: 20px;
+    }
+
+    .product-grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-2);
+    }
+}

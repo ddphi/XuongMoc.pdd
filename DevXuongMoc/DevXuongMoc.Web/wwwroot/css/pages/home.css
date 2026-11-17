@@ -1,0 +1,477 @@
+﻿/* 1. HERO BANNER */
+.home-hero {
+    position: relative;
+    min-height: 620px;
+    background: url('/images/hero-home.jpg') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    padding-bottom: 80px;
+}
+
+.home-hero__content {
+    max-width: 620px;
+}
+
+.home-hero__title {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--color-navy);
+    line-height: 1.25;
+}
+
+.home-hero__brand {
+    display: block;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--color-gold);
+    margin-bottom: var(--space-2);
+}
+
+.home-hero__desc {
+    color: var(--color-ink);
+    margin-bottom: var(--space-3);
+    max-width: 480px;
+}
+
+/* 2. LƯỚI 8 DANH MỤC NỔI ĐÈ LÊN HERO */
+.home-categories {
+    margin-top: -80px;
+    position: relative;
+    z-index: 10;
+}
+
+.category-box {
+    background-color: var(--color-surface);
+    padding: var(--space-4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4) var(--space-2);
+}
+
+.category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: var(--space-1);
+    transition: transform 0.2s ease;
+}
+
+    .category-item:hover {
+        transform: translateY(-3px);
+        color: var(--color-gold);
+    }
+
+.category-item__icon {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
+.category-item__name {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--color-navy);
+}
+
+.category-item:hover .category-item__name {
+    color: var(--color-gold);
+}
+
+/* 3. CAROUSEL SẢN PHẨM NỔI BẬT */
+.home-featured {
+    padding: var(--space-6) 0;
+}
+
+.carousel-wrapper {
+    position: relative;
+}
+
+.carousel-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc(25% - 18px);
+    gap: var(--space-3);
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+    .carousel-track::-webkit-scrollbar {
+        display: none;
+    }
+
+.carousel-btn {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--color-gold);
+    color: var(--color-surface);
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn--prev {
+    left: -18px;
+}
+
+.carousel-btn--next {
+    right: -18px;
+}
+
+/* 4. VỀ CHÚNG TÔI & TẠI SAO NÊN CHỌN */
+.home-about {
+    background: linear-gradient(rgba(25, 22, 20, 0.85), rgba(25, 22, 20, 0.88)), url('/images/bg-about.jpg') center/cover no-repeat;
+    color: var(--color-surface);
+    padding: var(--space-6) 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    align-items: stretch;
+    margin-bottom: var(--space-6);
+}
+
+.about-main-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.about-info__title {
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+    line-height: 1.4;
+}
+
+.about-info p {
+    font-size: 14px;
+    color: #e5e5e5;
+    margin-bottom: 12px;
+    text-align: justify;
+}
+
+.about-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: var(--space-2);
+}
+
+.about-thumbs__item {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+    .about-thumbs__item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.about-thumbs__more {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+}
+
+.why-card {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    padding: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.why-card__icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+}
+
+.why-card__title {
+    color: var(--color-gold);
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.why-card__desc {
+    font-size: 14px;
+    color: #555555;
+}
+
+/* 5. TIN TỨC */
+.home-news {
+    background-color: #3a3531;
+    color: var(--color-surface);
+    padding: var(--space-6) 0;
+}
+
+.news-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--space-4);
+}
+
+.news-featured {
+    position: relative;
+    display: block;
+    overflow: hidden;
+}
+
+    .news-featured img {
+        width: 100%;
+        height: 420px;
+        object-fit: cover;
+    }
+
+.news-featured__overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(193, 154, 91, 0.94);
+    padding: var(--space-3);
+}
+
+.news-featured__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-surface);
+    margin-bottom: 8px;
+}
+
+.news-featured__excerpt {
+    font-size: 14px;
+    color: #fff8ee;
+}
+
+.news-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-2);
+}
+
+.news-small {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+}
+
+.news-small__thumb {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.news-small__title {
+    color: var(--color-gold);
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.news-small__excerpt {
+    font-size: 13px;
+    color: #d6d6d6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-more {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--color-gold);
+    font-weight: 700;
+    font-size: 14px;
+}
+
+/* 6. DẢI LOGO ĐỐI TÁC */
+.home-partners {
+    background-color: var(--color-surface);
+    padding: var(--space-6) 0;
+}
+
+.partner-strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+    .partner-strip img {
+        height: 64px;
+        width: auto;
+        object-fit: contain;
+        filter: grayscale(20%);
+        transition: filter 0.2s ease;
+    }
+
+        .partner-strip img:hover {
+            filter: grayscale(0%);
+        }
+
+/* 7. FORM TƯ VẤN NHANH CUỐI TRANG */
+.home-quicklead {
+    position: relative;
+    background: linear-gradient(rgba(193, 154, 91, 0.72), rgba(138, 106, 51, 0.82)), url('/images/bg-quicklead.jpg') center/cover no-repeat;
+    padding: var(--space-6) 0;
+    margin-top: var(--space-4);
+    color: var(--color-surface);
+}
+
+.quicklead-chair {
+    position: absolute;
+    left: 2%;
+    top: -48px;
+    width: 210px;
+    pointer-events: none;
+}
+
+.quicklead-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-left: 160px;
+}
+
+.quicklead-text {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+    .quicklead-text strong {
+        display: block;
+        font-weight: 800;
+    }
+
+.quicklead-form {
+    flex: 1;
+    max-width: 520px;
+}
+
+    .quicklead-form label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+.quicklead-form__row {
+    display: flex;
+    gap: 12px;
+}
+
+.quicklead-form__input {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-size: 15px;
+}
+
+.quicklead-form__btn {
+    padding: 12px 32px;
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
+
+    .quicklead-form__btn:hover {
+        background-color: var(--color-navy);
+        color: var(--color-surface);
+    }
+
+.quicklead-msg {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* RESPONSIVE TRANG CHỦ (Mục 2.7) */
+@media (max-width: 992px) {
+    .category-box {
+        grid-template-columns: repeat(4, 1fr);
+        padding: var(--space-2);
+    }
+
+    .carousel-track {
+        grid-auto-columns: calc(33.333% - 16px);
+    }
+
+    .about-grid, .news-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .quicklead-chair {
+        display: none;
+    }
+
+    .quicklead-inner {
+        padding-left: 0;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 576px) {
+    .home-hero {
+        min-height: 440px;
+    }
+
+    .home-hero__title, .home-hero__brand {
+        font-size: 24px;
+    }
+
+    .category-box {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .carousel-track {
+        grid-auto-columns: calc(50% - 12px);
+    }
+
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+}

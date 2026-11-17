@@ -81,7 +81,7 @@ namespace DevXuongMoc.Web.Areas.Admin.Controllers
                 {
                     partner.UpdatedAt = DateTime.Now;
 
-                    // Nếu có chọn Logo mới thì cập nhật, không thì giữ nguyên Logo cũ
+                    // Nếu có chọn Logo mới thì cập nhật
                     if (LogoFile != null && LogoFile.Length > 0)
                     {
                         string uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "partners");
@@ -95,7 +95,7 @@ namespace DevXuongMoc.Web.Areas.Admin.Controllers
                             await LogoFile.CopyToAsync(stream);
                         }
 
-                        // Xóa logo cũ (nếu có) để tránh rác server
+                        //Xóa logo cũ
                         if (!string.IsNullOrEmpty(partner.LogoPath))
                         {
                             var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", partner.LogoPath.TrimStart('/'));

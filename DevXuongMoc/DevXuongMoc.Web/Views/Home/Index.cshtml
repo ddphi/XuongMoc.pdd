@@ -1,8 +1,225 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model DevXuongMoc.Web.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Nội thất Hoàng Hoan - Nội thất gỗ cao cấp";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/components/card.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages/home.css" asp-append-version="true" />
+}
+
+@section Meta {
+    <script type="application/ld+json">
+        {
+          "@@context": "https://schema.org",
+          "@@type": "Organization",
+          "name": "CÔNG TY TNHH HOÀNG HOAN",
+          "telephone": "0999.999.999",
+          "email": "cskh@hoanghoan.vn"
+        }
+    </script>
+}
+
+<!-- 1. HERO -->
+<section class="home-hero">
+    <div class="container">
+        <div class="home-hero__content">
+            <h1 class="home-hero__title">
+                THẾ GIỚI NỘI THẤT SỐ 1 VIỆT NAM
+                <span class="home-hero__brand">HOÀNG HOAN</span>
+            </h1>
+            <p class="home-hero__desc">
+                Sứ mệnh của chúng tôi là kết hợp hài hòa giữa ý tưởng và mong muốn của khách hàng,
+                đem lại những phút giây thư giãn tuyệt vời bên gia đình và những người thân yêu.
+            </p>
+            <a href="/lien-he" class="btn-primary">Liên hệ ngay</a>
+        </div>
+    </div>
+</section>
+
+<!-- 2. LƯỚI 8 DANH MỤC -->
+<section class="home-categories" aria-label="Danh mục sản phẩm">
+    <div class="container">
+        <div class="category-box">
+            @foreach (var cat in Model.Categories)
+            {
+                <a href="/san-pham/@cat.Slug" class="category-item">
+                    <img src="@cat.IconPath" alt="@cat.Name" class="category-item__icon" />
+                    <span class="category-item__name">@cat.Name</span>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- 3. CAROUSEL SẢN PHẨM NỔI BẬT -->
+<section class="home-featured">
+    <div class="container">
+        <div class="section-heading">
+            <h2 class="section-heading__title">Sản phẩm nổi bật</h2>
+        </div>
+
+        <div class="carousel-wrapper">
+            <button type="button" class="carousel-btn carousel-btn--prev" id="featuredPrev" aria-label="Sản phẩm trước">‹</button>
+            <div class="carousel-track" id="featuredTrack">
+                @foreach (var product in Model.FeaturedProducts)
+                {
+                    <partial name="_ProductCard" model="product" />
+                }
+            </div>
+            <button type="button" class="carousel-btn carousel-btn--next" id="featuredNext" aria-label="Sản phẩm tiếp">›</button>
+        </div>
+    </div>
+</section>
+
+<!-- 4. VỀ CHÚNG TÔI & TẠI SAO NÊN CHỌN -->
+<section class="home-about">
+    <div class="container">
+        <div class="section-heading section-heading--light">
+            <h2 class="section-heading__title">Về chúng tôi</h2>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-main-img">
+                <img src="~/images/about-workshop.jpg" alt="Xưởng sản xuất nội thất Hoàng Hoan" />
+            </div>
+            <div class="about-info">
+                <h3 class="about-info__title">NỘI THẤT HOÀNG HOAN<br />UY TÍN SONG HÀNH CHẤT LƯỢNG</h3>
+                <p>
+                    Nội thất Hoàng Hoan chúng tôi tự hào là đứa con tinh thần ra đời sau hơn 30 năm hoạt động
+                    trong lĩnh vực kinh doanh đồ gỗ nội thất với thương hiệu đồ gỗ nội thất nổi tiếng.
+                </p>
+                <p>
+                    Tài nguyên của chúng tôi là đội ngũ kiến trúc sư tốt nghiệp ĐH Kiến Trúc Hà Nội với nhiều năm
+                    kinh nghiệm, luôn tràn đầy nhiệt huyết và sức sáng tạo của tuổi trẻ.
+                </p>
+                <div class="about-thumbs">
+                    <div class="about-thumbs__item"><img src="~/images/about-1.jpg" alt="Không gian 1" /></div>
+                    <div class="about-thumbs__item"><img src="~/images/about-2.jpg" alt="Không gian 2" /></div>
+                    <div class="about-thumbs__item"><img src="~/images/about-3.jpg" alt="Không gian 3" /></div>
+                    <a href="/gioi-thieu" class="about-thumbs__item">
+                        <img src="~/images/about-4.jpg" alt="Xem thêm giới thiệu" />
+                        <span class="about-thumbs__more">Xem thêm &gt;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-heading section-heading--light">
+            <h2 class="section-heading__title">Tại sao nên chọn Hoàng Hoan?</h2>
+        </div>
+
+        <div class="why-grid">
+            <div class="why-card">
+                <img src="~/images/icons/chon-1.jpg" alt="" class="why-card__icon" />
+                <div>
+                    <h3 class="why-card__title">Chính sách giá</h3>
+                    <p class="why-card__desc">Tốt nhất và công khai giá trên website</p>
+                </div>
+            </div>
+            <div class="why-card">
+                <img src="~/images/icons/chon-2.jpg" alt="" class="why-card__icon" />
+                <div>
+                    <h3 class="why-card__title">Sản xuất</h3>
+                    <p class="why-card__desc">Trực tiếp sản xuất bởi đội ngũ nhân viên hàng đầu</p>
+                </div>
+            </div>
+            <div class="why-card">
+                <img src="~/images/icons/chon-3.jpg" alt="" class="why-card__icon" />
+                <div>
+                    <h3 class="why-card__title">Chất lượng</h3>
+                    <p class="why-card__desc">Cam kết chất lượng sản phẩm và tiến độ thi công</p>
+                </div>
+            </div>
+            <div class="why-card">
+                <img src="~/images/icons/chon-4.jpg" alt="" class="why-card__icon" />
+                <div>
+                    <h3 class="why-card__title">Bảo hành</h3>
+                    <p class="why-card__desc">Dịch vụ bảo hành sản phẩm tốt nhất khu vực</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. TIN TỨC -->
+<section class="home-news">
+    <div class="container">
+        <div class="section-heading section-heading--light">
+            <h2 class="section-heading__title">Tin tức</h2>
+        </div>
+
+        @if (Model.LatestNews.Any())
+        {
+            var mainPost = Model.LatestNews.First();
+            var sidePosts = Model.LatestNews.Skip(1).Take(3);
+
+            <div class="news-layout">
+                <a href="/tin-tuc/@mainPost.Slug" class="news-featured">
+                    <img src="@mainPost.ThumbnailPath" alt="@mainPost.Title" />
+                    <div class="news-featured__overlay">
+                        <h3 class="news-featured__title">@mainPost.Title</h3>
+                        <p class="news-featured__excerpt">@mainPost.Excerpt</p>
+                    </div>
+                </a>
+
+                <div class="news-list">
+                    @foreach (var post in sidePosts)
+                    {
+                        <a href="/tin-tuc/@post.Slug" class="news-small">
+                            <img src="@post.ThumbnailPath" alt="@post.Title" class="news-small__thumb" />
+                            <div>
+                                <h3 class="news-small__title">@post.Title</h3>
+                                <p class="news-small__excerpt">@post.Excerpt</p>
+                            </div>
+                        </a>
+                    }
+                    <div>
+                        <a href="/tin-tuc" class="news-more">XEM THÊM &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- 6. ĐỐI TÁC -->
+<section class="home-partners">
+    <div class="container">
+        <div class="section-heading">
+            <h2 class="section-heading__title">Đối tác</h2>
+        </div>
+        <div class="partner-strip">
+            @foreach (var partner in Model.Partners)
+            {
+                <img src="@partner.LogoPath" alt="@partner.Name" />
+            }
+        </div>
+    </div>
+</section>
+
+<!-- 7. FORM TƯ VẤN NHANH -->
+<section class="home-quicklead">
+    <img src="~/images/chair-cutout.png" alt="" class="quicklead-chair" />
+    <div class="container quicklead-inner">
+        <div class="quicklead-text">
+            Trải nghiệm dịch vụ
+            <strong>cùng Hoàng Hoan ngay</strong>
+        </div>
+
+        <form id="quickLeadForm" action="/lien-he/tu-van-nhanh" method="post" class="quicklead-form">
+            @Html.AntiForgeryToken()
+            <label for="quickContactInput">Thông tin liên hệ</label>
+            <div class="quicklead-form__row">
+                <input type="text" id="quickContactInput" name="contactInfo" required
+                       placeholder="Email/Số điện thoại" class="quicklead-form__input" />
+                <button type="submit" class="quicklead-form__btn">Gửi</button>
+            </div>
+            <p id="quickLeadMsg" class="quicklead-msg" role="status"></p>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/carousel.js" asp-append-version="true" defer></script>
+}

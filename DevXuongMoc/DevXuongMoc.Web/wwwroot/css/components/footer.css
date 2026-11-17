@@ -1,0 +1,118 @@
+﻿.site-footer {
+    background-color: var(--color-footer);
+    color: var(--color-footer-text);
+    padding: var(--space-6) 0 var(--space-4);
+    margin-top: var(--space-8);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: var(--space-4);
+}
+
+.footer-title {
+    color: var(--color-footer-title);
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+    position: relative;
+    padding-bottom: 8px;
+}
+
+    .footer-title::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 48px;
+        height: 3px;
+        background-color: var(--color-gold);
+    }
+
+.footer-company {
+    color: var(--color-footer-title);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.footer-list li {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.footer-list a:hover {
+    color: var(--color-gold);
+}
+
+.footer-socials {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+}
+
+    .footer-socials a {
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--color-footer-text);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm);
+    }
+
+        .footer-socials a:hover {
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+        }
+
+.footer-bct img {
+    max-width: 150px;
+}
+
+/* --- RESPONSIVE (Mục 2.7) --- */
+@media (max-width: 992px) {
+    .site-header {
+        height: 80px;
+    }
+
+    .header-logo img {
+        height: 48px;
+    }
+
+    .nav-toggle {
+        display: block;
+    }
+
+    .main-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--color-surface);
+        padding: var(--space-2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+        .main-nav.is-open {
+            display: block;
+        }
+
+    .main-nav__list {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-1);
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}

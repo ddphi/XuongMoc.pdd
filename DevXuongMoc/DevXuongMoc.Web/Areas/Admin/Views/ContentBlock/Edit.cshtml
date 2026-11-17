@@ -1,0 +1,54 @@
+﻿@model DevXuongMoc.Domain.Entities.ContentBlock
+
+@{
+    ViewData["Title"] = "Chỉnh sửa Khối nội dung";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+        <h5 class="mb-0">Chỉnh sửa Khối nội dung</h5>
+    </div>
+    <div class="card-body">
+        <form asp-area="Admin" asp-controller="ContentBlock" asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedAt" />
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Group" class="form-label fw-bold">Thuộc Nhóm <span class="text-danger">*</span></label>
+                    <select asp-for="Group" class="form-select" required>
+                        <option value="1">1 - Trang Chủ</option>
+                        <option value="2">2 - Trang Giới Thiệu</option>
+                        <option value="3">3 - Khác</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Key" class="form-label fw-bold">Mã định danh (Key) <span class="text-danger">*</span></label>
+                    <input asp-for="Key" class="form-control" required readonly />
+                    <div class="form-text text-danger">Không được sửa Key để tránh lỗi giao diện.</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ContentHtml" class="form-label fw-bold">Nội dung (HTML)</label>
+                <textarea asp-for="ContentHtml" class="form-control" rows="8"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="SortOrder" class="form-label fw-bold">Thứ tự hiển thị</label>
+                <input asp-for="SortOrder" class="form-control" type="number" />
+            </div>
+
+            <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Cập nhật</button>
+            <a asp-area="Admin" asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Quay lại</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

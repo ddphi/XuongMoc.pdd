@@ -1,0 +1,92 @@
+﻿.site-header {
+    background-color: var(--color-surface);
+    height: var(--header-height);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-logo img {
+    height: 64px;
+    width: auto;
+}
+
+.main-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.main-nav__link {
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    padding: 12px 0;
+    position: relative;
+}
+
+    .main-nav__link:hover {
+        color: var(--color-gold);
+    }
+
+    .main-nav__link.is-active::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 4px;
+        background-color: var(--color-gold);
+    }
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--color-navy);
+    cursor: pointer;
+}
+
+/* --- BUTTON & INPUT CHUẨN (Mục 2.6) --- */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-gold);
+    color: var(--color-surface);
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    .btn-primary:hover {
+        background-color: #b0894c; /* Tối hơn ~8% */
+    }
+
+    .btn-primary:focus-visible {
+        outline: 2px solid var(--color-navy);
+        outline-offset: 2px;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: var(--border-input);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 15px;
+}

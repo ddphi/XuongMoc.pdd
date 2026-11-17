@@ -1,49 +1,92 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@{
+    var currentPath = Context.Request.Path.Value?.ToLower() ?? "/";
+    bool IsActive(string url) => url == "/"
+        ? currentPath == "/"
+        : currentPath.StartsWith(url);
+}
+<!DOCTYPE html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DevXuongMoc.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/DevXuongMoc.Web.styles.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - Nội thất Hoàng Hoan</title>
+    <link rel="stylesheet" href="~/css/tokens.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/base.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components/header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components/footer.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+    @await RenderSectionAsync("Meta", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DevXuongMoc.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="/" class="header-logo" aria-label="Trang chủ Nội thất Hoàng Hoan">
+                <img src="~/images/logo.png" alt="Nội thất Hoàng Hoan" />
+            </a>
+
+            <button type="button" class="nav-toggle" id="navToggle" aria-label="Mở menu">☰</button>
+
+            <nav class="main-nav" id="mainNav" aria-label="Điều hướng chính">
+                <ul class="main-nav__list">
+                    <li><a href="/" class="main-nav__link @(IsActive("/") ? "is-active" : "")">Trang chủ</a></li>
+                    <li><a href="/gioi-thieu" class="main-nav__link @(IsActive("/gioi-thieu") ? "is-active" : "")">Giới thiệu</a></li>
+                    <li><a href="/san-pham" class="main-nav__link @(IsActive("/san-pham") ? "is-active" : "")">Sản phẩm</a></li>
+                    <li><a href="/tin-tuc" class="main-nav__link @(IsActive("/tin-tuc") ? "is-active" : "")">Tin tức</a></li>
+                    <li><a href="/doi-tac" class="main-nav__link @(IsActive("/doi-tac") ? "is-active" : "")">Đối tác</a></li>
+                    <li><a href="/lien-he" class="main-nav__link @(IsActive("/lien-he") ? "is-active" : "")">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <h3 class="footer-title">Thông tin chung</h3>
+                <p class="footer-company">CÔNG TY TNHH HOÀNG HOAN</p>
+                <ul class="footer-list">
+                    <li>📞 <a href="tel:0999999999">0999.999.999</a></li>
+                    <li>✉️ <a href="mailto:cskh@hoanghoan.vn">cskh@hoanghoan.vn</a></li>
+                    <li>📍 Số 1 Nguyễn Trãi, Thanh Xuân, Hà Nội</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-title">Về chúng tôi</h3>
+                <ul class="footer-list">
+                    <li><a href="/gioi-thieu">Giới thiệu</a></li>
+                    <li><a href="/san-pham">Sản phẩm</a></li>
+                    <li><a href="/tin-tuc">Tin tức</a></li>
+                    <li><a href="/doi-tac">Đối tác</a></li>
+                    <li><a href="/lien-he">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-title">Kết nối với chúng tôi</h3>
+                <div class="footer-socials">
+                    <a href="#" aria-label="Facebook">FB</a>
+                    <a href="#" aria-label="Zalo">ZL</a>
+                    <a href="mailto:cskh@hoanghoan.vn" aria-label="Email">✉</a>
+                </div>
+                <div class="footer-bct">
+                    <a href="#" target="_blank" rel="noopener">
+                        <img src="~/images/bo-cong-thuong.png" alt="Đã thông báo Bộ Công Thương" />
+                    </a>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - DevXuongMoc.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        document.getElementById('navToggle')?.addEventListener('click', function () {
+            document.getElementById('mainNav')?.classList.toggle('is-open');
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

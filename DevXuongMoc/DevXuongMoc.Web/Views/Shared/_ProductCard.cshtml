@@ -1,0 +1,39 @@
+﻿@model DevXuongMoc.Web.ViewModels.ProductCardViewModel
+
+<article class="product-card">
+    <a href="/san-pham/@Model.CategorySlug/@Model.Slug" class="product-card__thumb">
+        <img src="@Model.ThumbnailPath" alt="@(string.IsNullOrWhiteSpace(Model.AltText) ? Model.Name : Model.AltText)" loading="lazy" />
+    </a>
+    <div class="product-card__body">
+        <h3 class="product-card__title">
+            <a href="/san-pham/@Model.CategorySlug/@Model.Slug">@Model.Name</a>
+        </h3>
+
+        <div class="product-card__rating" aria-label="Đánh giá @Model.Rating trên 5 sao">
+            @for (int i = 1; i <= 5; i++)
+            {
+                <span class="star @(i <= Model.Rating ? "is-filled" : "")">★</span>
+            }
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ShortSpec))
+        {
+            <p class="product-card__spec">(@Model.ShortSpec)</p>
+        }
+
+        <div class="product-card__price">
+            @if (Model.SalePrice > 0)
+            {
+                @if (Model.OriginalPrice > Model.SalePrice)
+                {
+                    <span class="product-card__price-old">@Model.OriginalPrice.ToString("N0") VNĐ</span>
+                }
+                <span class="product-card__price-sale">@Model.SalePrice.ToString("N0") VNĐ</span>
+            }
+            else
+            {
+                <span class="product-card__price-sale" style="color: var(--color-gold);">Liên hệ</span>
+            }
+        </div>
+    </div>
+</article>

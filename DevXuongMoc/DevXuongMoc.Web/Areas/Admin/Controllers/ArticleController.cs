@@ -16,7 +16,6 @@ namespace DevXuongMoc.Web.Areas.Admin.Controllers
             _context = context;
         }
 
-        //  Danh sách bài viết
         public async Task<IActionResult> Index()
         {
             var articles = await _context.Articles
